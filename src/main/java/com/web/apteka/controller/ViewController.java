@@ -49,4 +49,23 @@ public class ViewController {
         model.addAttribute("size",size);
         return "users";
     }
+    @GetMapping("/catalog_pages")
+    public String catalogp(Model model,
+                         @RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "15") int size)
+    {
+        model.addAttribute("page",page);
+        model.addAttribute("size",size);
+        return "catalog";
+    }
+    @GetMapping("/catalog")
+    public String catalog()
+    {
+        return "catalog";
+    }
+    @GetMapping("/profile")
+    public String profile()
+    {
+        return "profile";
+    }
 }

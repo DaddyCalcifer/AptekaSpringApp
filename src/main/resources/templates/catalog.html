@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" minimum-scale=0.5, maximum-scale=1.5">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог лекарств</title>
-    <link rel="stylesheet" href="catalog.css">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/catalog.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div class="header">Онлайн-аптека
-        <div class="container">
-            <a href="index.html" style="margin: 0px 10px;">Главная</a>
-            <a href="catalog.html" style="margin: 0px 10px;">Каталог</a>
-            <a href="#" style="margin: 0px 10px;">О нас</a>
-            <a href="#" style="margin: 0px 10px;">Контакты</a>
-            <a href="#" style="margin: 0px 10px;">Регистрация / Вход</a>
-        </div>
-    </div>
+<div class="header">Онлайн-аптека
+	<div class="container">
+		<a href="index" style="margin: 0px 10px;">Главная</a>
+		<a href="catalog" style="margin: 0px 10px;">Каталог</a>
+		<a href="#" style="margin: 0px 10px;">О нас</a>
+		<a href="#" style="margin: 0px 10px;">Контакты</a>
+		<a href="#" style="margin: 0px 10px;">Регистрация / Вход</a>
+	</div>
+</div>
 
     <main class="catalog">
 		<div class="sidebar">
