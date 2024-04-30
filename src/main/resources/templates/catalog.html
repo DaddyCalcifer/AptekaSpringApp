@@ -6,6 +6,7 @@
     <title>Каталог лекарств</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/catalog.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<script th:src="@{/js/script.js}" type="text/javascript"></script>
 </head>
 <body>
 <div class="header">Онлайн-аптека
@@ -106,7 +107,7 @@
 			</div>
 		</div>
 		<h2 class="catalog-title">Обезболивающее</h2>
-        <div class="medicine-list">
+        <div class="medicine-list" id="aids-container">
 			<div class="medicine">
 				<img src="https://via.placeholder.com/170" alt="Лекарство 1">
 				<h3 class="medicine-name">Лекарство</h3>
@@ -156,7 +157,9 @@
 				<button class = "medicine-buy" type="button">В корзину</button>
 			</div>
 			<div class="medicine">
-				<img src="https://via.placeholder.com/170" alt="Лекарство 1">
+				<a href="profile.html">
+					<img src="https://via.placeholder.com/170" alt="Лекарство 1">
+				</a>
 				<h3 class="medicine-name">Лекарство</h3>
 				<p class="medicine-description">Описание лекарства.</p>
 				<button class = "medicine-buy" type="button">В корзину</button>

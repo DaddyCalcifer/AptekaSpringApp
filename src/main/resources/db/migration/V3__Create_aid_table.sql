@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS aids (
     id SERIAL PRIMARY KEY,
     name VARCHAR(120) NOT NULL,
     manufacturer VARCHAR(120) NOT NULL,
+    imageURL TEXT NOT NULL DEFAULT 'https://via.placeholder.com/170',
     description TEXT,
     price NUMERIC(10, 2) NOT NULL,
     quantity INT NOT NULL DEFAULT 0,

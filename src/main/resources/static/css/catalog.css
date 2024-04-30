@@ -190,3 +190,13 @@ body {
 .filter button:hover {
     background-color: #45a049;
 }
+.price {
+    font-size: 18px; /* Размер шрифта */
+    color: #006e06; /* Цвет текста */
+    font-weight: bold; /* Жирный текст */
+}
+.price-sale {
+    font-size: 20px; /* Размер шрифта */
+    color: #641d5b; /* Цвет текста */
+    font-weight: bold; /* Жирный текст */
+}
