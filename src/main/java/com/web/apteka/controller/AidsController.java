@@ -36,9 +36,18 @@ public class AidsController {
     //Добавил пагинацию для оптимизации памяти при большом количестве записей в бд [14.04]
     @GetMapping
     public ResponseEntity<List<AidDTO>> getAllAids(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "10") int size) {
+                                                        @RequestParam(defaultValue = "20") int size,
+                                                   @RequestParam(defaultValue = "") String search) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AidDTO> aidsPage = aidService.getActiveAids(pageable);
+        Page<AidDTO> aidsPage;
+
+        if (!search.isEmpty()) {
+            // Если передана строка поиска, выполняем поиск по названию и описанию
+            aidsPage = aidService.findAids(pageable, search);
+        } else {
+            // Иначе получаем все лекарства
+            aidsPage = aidService.getActiveAids(pageable);
+        }
 
         if (aidsPage.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -79,8 +88,12 @@ public class AidsController {
 //        else return ResponseEntity.notFound().build();
 //    }
     @GetMapping("/count")
-    public ResponseEntity<Integer> getAidsCount() {
-        Integer count = aidService.getAidsCount();
+    public ResponseEntity<Integer> getAidsCount(@RequestParam(defaultValue = "") String search) {
+        Integer count;
+        if(!search.isEmpty())
+            count = aidService.searchAidsCount(search);
+        else
+            count = aidService.getAidsCount();
         return ResponseEntity.ok(count);
     }
 }

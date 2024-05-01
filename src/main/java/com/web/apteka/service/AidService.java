@@ -29,6 +29,9 @@ public class AidService {
     public Page<AidDTO> getActiveAids(Pageable pageable) {
         return aidRepository.getActiveAids(pageable);
     }
+    public Page<AidDTO> findAids(Pageable pageable, String search) {
+        return aidRepository.searchAids(pageable, search);
+    }
 
     public Optional<AidDTO> getAidById(Integer id) {
         return aidRepository.findById(id);
@@ -75,5 +78,9 @@ public class AidService {
     public Integer getAidsCount()
     {
         return aidRepository.getAidsCount();
+    }
+    public Integer searchAidsCount(String search)
+    {
+        return aidRepository.getSearchAidsCount(search);
     }
 }

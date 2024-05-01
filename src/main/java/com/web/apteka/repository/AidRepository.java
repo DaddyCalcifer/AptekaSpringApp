@@ -18,6 +18,9 @@ public interface AidRepository extends JpaRepository<AidDTO, Integer> {
     @Query("SELECT u FROM AidDTO u WHERE isDeleted = FALSE")
     Page<AidDTO> getActiveAids(org.springframework.data.domain.Pageable pageable);
 
+    @Query("SELECT a FROM AidDTO a WHERE a.isDeleted = false AND (LOWER(a.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :search, '%')))")
+    Page<AidDTO> searchAids(org.springframework.data.domain.Pageable pageable, @Param("search") String search);
+
     @Transactional
     @Modifying
     @Query("UPDATE AidDTO a SET a.isDeleted = true WHERE a.id = :id AND a.isDeleted = false")
@@ -47,4 +50,7 @@ public interface AidRepository extends JpaRepository<AidDTO, Integer> {
     //               @Param("quantity") Integer quantity);
     @Query("SELECT COUNT(*) FROM AidDTO")
     Integer getAidsCount();
+
+    @Query("SELECT COUNT(a) FROM AidDTO a WHERE a.isDeleted = false AND (LOWER(a.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :search, '%')))")
+    Integer getSearchAidsCount(@Param("search") String search);
 }

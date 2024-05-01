@@ -16,39 +16,6 @@ public class ViewController {
     public ViewController(AccountService accountService) {
         this.accountService = accountService;
     }
-    @GetMapping("/users/{id}")
-    public String userId(Model model,@PathVariable UUID id) {
-        AccountDTO user = accountService.getUserById(id).get();
-        if(user.isDeleted()) {
-            return "blocked";
-        } else {
-            model.addAttribute("name", user.getName());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("createdAt", user.getCreatedAt().toString().replace("T", "\t"));
-            model.addAttribute("updatedAt", user.getUpdatedAt().toString().replace("T", "\t"));
-            return "user";
-        }
-    }
-    @GetMapping("/users/{id}/edit")
-    public String userEdit(Model model,@PathVariable UUID id) {
-        AccountDTO user = accountService.getUserById(id).get();
-        if(user.isDeleted()) {
-            return "blocked";
-        } else {
-            model.addAttribute("name", user.getName());
-            model.addAttribute("email", user.getEmail());
-            return "user_edit";
-        }
-    }
-    @GetMapping("/users")
-    public String userId(Model model,
-                         @RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "15") int size)
-    {
-        model.addAttribute("page",page);
-        model.addAttribute("size",size);
-        return "users";
-    }
     @GetMapping("/catalog_pages")
     public String catalogp(Model model,
                          @RequestParam(defaultValue = "0") int page,
@@ -62,6 +29,11 @@ public class ViewController {
     public String catalog()
     {
         return "catalog";
+    }
+    @GetMapping("/index")
+    public String index()
+    {
+        return "index";
     }
     @GetMapping("/profile")
     public String profile()
