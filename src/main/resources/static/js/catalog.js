@@ -69,6 +69,10 @@ const urlParams = new URLSearchParams(window.location.search);
     function viewAid(aidId) {
         window.location.href = `http://localhost:8080/api/aids/${aidId}`;
     }
+    function search(){
+        const search_val = document.getElementById("search_input").value;
+        window.location.href = `http://localhost:8080/catalog?search=${search_val}`;
+    }
     document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("search_input");
             loadAids(_page);
