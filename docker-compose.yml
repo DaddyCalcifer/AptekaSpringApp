@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: usersmicro
+      POSTGRES_DB: apteka-spring
     volumes:
       - postgres-data:/var/lib/postgresql/data
     command: ["postgres", "-c", "listen_addresses=0.0.0.0"]
