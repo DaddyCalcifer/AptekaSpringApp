@@ -41,6 +41,9 @@ public class AidDTO {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    @Column(name = "discount_percent", nullable = false)
+    private Integer discountPercent;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();

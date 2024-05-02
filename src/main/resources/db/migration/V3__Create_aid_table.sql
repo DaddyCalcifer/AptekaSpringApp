@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS aids (
     description TEXT,
     price NUMERIC(10, 2) NOT NULL,
     quantity INT NOT NULL DEFAULT 0,
+    discount_percent INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN NOT NULL DEFAULT false
 );

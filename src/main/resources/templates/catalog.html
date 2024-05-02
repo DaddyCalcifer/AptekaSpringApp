@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/css/catalog.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 	<script th:src="@{/js/catalog.js}" type="text/javascript"></script>
+	<script src="https://cdn.lordicon.com/lordicon.js"></script>
 </head>
 <body>
 <div class="header">Онлайн-аптека
@@ -24,44 +25,27 @@
 			<h2 class="catalog-title" style="margin-top: 20px;">Фильтры</h2>
 			<div class="filter">
 				<label for="price">Диапазон цены:</label>
-				<input type="text" class="search-container.sidebar" placeholder="От">
-				<input type="text" class="search-container.sidebar" placeholder="До">
+				<input type="text" class="search-container.sidebar" placeholder="От" id="minPrice">
+				<input type="text" class="search-container.sidebar" placeholder="До" id="maxPrice">
 			</div>
 			<div class="filter">
-				<label for="type">Тип лекарства:</label>
-				<select id="type">
-					<option value="all">Все</option>
-					<option value="painkillers">Обезболивающие</option>
-					<option value="antibiotics">Антибиотики</option>
-					<option value="vitamins">Витамины</option>
-				</select>
+				<label for="type">Сортировать:</label>
+				<button type="button" id="sort_button" onclick="changeSort();" class="medicine-buy">Сначала дешевые</button>
 			</div>
-			<button type="button" class="medicine-buy">Применить</button>
+			<button type="button" class="medicine-buy" onclick="applyFilter();">Применить</button>
 		</div>
 		<div class="medicine-main">
 			<div class="search-container">
 				<input type="text" id="search_input" placeholder="Поиск товара...">
-				<button type="button" onclick="search();">Найти</button>
+				<button type="button" onclick="applyFilter();">Найти</button>
 			</div>
-        	<h2 class="catalog-title">Акции недели</h2>
-        	<div class="medicine-list">
-				<div class="medicine">
-					<img src="https://via.placeholder.com/170" alt="Лекарство 1">
-					<h3 class="medicine-name">Лекарство</h3>
-					<p class="medicine-description">Описание лекарства.</p>
-					<p class="price-old">100 ₽</p>
-					<p class="price-sale">80 ₽</p>
-					<button class = "medicine-buy" type="button">В корзину</button>
-				</div>
-		</div>
+        	<h2 class="catalog-title">Выгодная полка</h2>
+        	<div class="medicine-list" id="sale-container">
+				<h2 class="catalog-title">Ничего не найдено...</h2>
+			</div>
 		<h2 class="catalog-title">Каталог</h2>
         <div class="medicine-list" id="aids-container">
-			<div class="medicine">
-				<img src="https://via.placeholder.com/170" alt="Лекарство 1">
-				<h3 class="medicine-name">Лекарство</h3>
-				<p class="medicine-description">Описание лекарства.</p>
-				<button class = "medicine-buy" type="button">В корзину</button>
-			</div>
+			<h2 class="catalog-title">Ничего не найдено...</h2>
 		</div>
 		<div id="pages-container" class="pages-container" style="margin-top: 20px; margin-bottom: 20px;">
 

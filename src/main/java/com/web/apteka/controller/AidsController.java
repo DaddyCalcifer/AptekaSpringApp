@@ -37,22 +37,37 @@ public class AidsController {
     @GetMapping
     public ResponseEntity<List<AidDTO>> getAllAids(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "20") int size,
-                                                   @RequestParam(defaultValue = "") String search) {
+                                                   @RequestParam(defaultValue = "") String search,
+                                                   @RequestParam(defaultValue = "0") double minP,
+                                                   @RequestParam(defaultValue = "999999") double maxP) {
         Pageable pageable = PageRequest.of(page, size);
         Page<AidDTO> aidsPage;
 
         if (!search.isEmpty()) {
-            // Если передана строка поиска, выполняем поиск по названию и описанию
-            aidsPage = aidService.findAids(pageable, search);
+            if((minP == 0) && (maxP == 0))
+                aidsPage = aidService.findAids(pageable, search);
+            else
+                aidsPage = aidService.searchViaPrice(pageable,search,minP,maxP);
         } else {
             // Иначе получаем все лекарства
-            aidsPage = aidService.getActiveAids(pageable);
+            if((minP == 0) && (maxP == 0))
+                aidsPage = aidService.getActiveAids(pageable);
+            else
+                aidsPage = aidService.searchViaPrice(pageable,"",minP,maxP);
         }
 
         if (aidsPage.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(aidsPage.getContent());
+        }
+    }
+    @GetMapping("/sale")
+    public ResponseEntity<List<AidDTO>> getSales() {
+        if (aidService.getSales().isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(aidService.getSales());
         }
     }
     @PostMapping("/add")
@@ -79,21 +94,21 @@ public class AidsController {
         }
         else return ResponseEntity.notFound().build();
     }
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<AidDTO> updateAid(@PathVariable Integer id, @RequestBody AidDTO newData)
-//    {
-//        if(!aidService.getAidById(id).isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.OK).body(aidService.updateAid(id,newData));
-//        }
-//        else return ResponseEntity.notFound().build();
-//    }
     @GetMapping("/count")
-    public ResponseEntity<Integer> getAidsCount(@RequestParam(defaultValue = "") String search) {
+    public ResponseEntity<Integer> getAidsCount(@RequestParam(defaultValue = "") String search,
+                                                @RequestParam(defaultValue = "0") Integer minP,
+                                                @RequestParam(defaultValue = "0") Integer maxP) {
         Integer count;
         if(!search.isEmpty())
-            count = aidService.searchAidsCount(search);
+            if(minP == 0 && maxP == 0)
+                count = aidService.searchAidsCount(search);
+            else
+                count = aidService.searchViaPriceCount(search,minP,maxP);
         else
+        if(minP == 0 && maxP == 0)
             count = aidService.getAidsCount();
+        else
+            count = aidService.searchViaPriceCount(search,minP,maxP);
         return ResponseEntity.ok(count);
     }
 }

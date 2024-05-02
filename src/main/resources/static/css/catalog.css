@@ -205,17 +205,19 @@ body {
     font-weight: bold; /* ������ ����� */
 }
 .price-old {
+    display: inline-block;
     font-size: 18px; /* Размер шрифта */
     color: gray; /* Серый цвет текста */
     text-decoration: line-through; /* Перечеркнутый текст */
 }
 .price-sale {
+    display: inline-block;
     font-size: 20px; /* ������ ������ */
-    color: #641d5b; /* ���� ������ */
+    color: #9c2e8e; /* ���� ������ */
     font-weight: bold; /* ������ ����� */
 }
 .medicine-description {
-    min-height: 3em; /* Минимальная высота параграфа для отображения двух строк */
+    height: 3em; /* Минимальная высота параграфа для отображения двух строк */
     line-height: 1.5; /* Высота строки */
 }
 .medicine-name {
@@ -237,5 +239,68 @@ body {
     padding: 10px;
 }
 .pageLink:hover{
+    background-color: #054e23;
+}
+.medicine-details {
+    display: flex;
+    align-items: flex-start;
+    margin: 0% 5% 10% 15%;
+    width: 70%;
+}
+
+.medicine-image {
+    margin-right: 20px;
+}
+
+.medicine-image img {
+    width: 500px;
+    height: 500px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.medicine-info {
+    width: 50%;
+}
+.buy-panel{
+    margin-top: 100px;
+}
+
+.medicine-name {
+    font-size: 24px;
+    color: #054e23;
+    margin-top: 0;
+}
+
+.manufacturer,
+.description,
+.price2 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 50px;
+}
+
+.manufacturer span,
+.description span,
+.price2 span {
+    font-weight: bold;
+}
+
+.add-to-cart-button,
+.add-to-favorites-button {
+    margin-bottom: 100px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #1b8f21;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.add-to-cart-button:hover,
+.add-to-favorites-button:hover {
     background-color: #054e23;
 }

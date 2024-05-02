@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Онлайн-аптека</title>
+    <title>Здравник.рф</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -11,20 +11,20 @@
         <div class="container">
             <a href="index" style="margin: 0px 10px;">Главная</a>
             <a href="catalog" style="margin: 0px 10px;">Каталог</a>
-            <a href="#" style="margin: 0px 10px;">О нас</a>
-            <a href="#" style="margin: 0px 10px;">Контакты</a>
-            <a href="#" style="margin: 0px 10px;">Регистрация / Вход</a>
+            <a href="about" style="margin: 0px 10px;">О нас</a>
+            <a href="contacts" style="margin: 0px 10px;">Контакты</a>
+            <a href="register" style="margin: 0px 10px;">Регистрация / Вход</a>
         </div>
     </div>
     <p class="middle_text">Найдите все, что вам нужно в нашей аптеке!</p>
     <p class="middle_subtext">Широкий выбор лекарств и медицинских товаров с доставкой по всей стране</p>
     <div class="description_panel">
         <div class="desc_container">
-            <a href="#">Анальгетики</a>
-            <a href="#">Противовоспалительные</a>
-            <a href="#">Витамины и добавки</a>
-            <a href="#">Препараты для здоровья</a>
-            <a href="#">Препараты для красоты</a>
+            <a href="catalog?search=боли">Анальгетики</a>
+            <a href="catalog?search=восп">Противовоспалительные</a>
+            <a href="catalog?search=витамин">Витамины и добавки</a>
+            <a href="catalog?search=здоров">Препараты для здоровья</a>
+            <a href="catalog?search=красот">Препараты для красоты</a>
         </div>
     </div>
     <div class="desc_panel">
@@ -32,16 +32,16 @@
             <div class="desc-panel_left">
                 <p class="desc-panel_p">Быстрое оформление заказа<br>и удобная доставка</p>
                 <p class="container">
-                    <a href="catalog.html#catalog">Каталог</a>
-                    <a href="catalog.html#catalog">Спецпредложения</a>
+                    <a href="catalog#aids-container">Каталог</a>
+                    <a href="catalog#sales-container">Спецпредложения</a>
                 </p>
             </div>
             <div class="desc-panel_right">
                 <p class="desc-panel_p">Программа лояльности для наших клиентов</p>
 				<br>
                 <p class="container">
-                    <a href="about_loyal.html">Узнать больше</a>
-                    <a href="#">Регистрация</a>
+                    <a href="loyal">Узнать больше</a>
+                    <a href="register">Регистрация</a>
                 </p>
             </div>
         </div>

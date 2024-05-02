@@ -26,11 +26,18 @@ public class AidService {
     public List<AidDTO> getAllAids() {
         return aidRepository.findAll();
     }
+    public List<AidDTO> getSales() {
+        return aidRepository.getSales();
+    }
     public Page<AidDTO> getActiveAids(Pageable pageable) {
         return aidRepository.getActiveAids(pageable);
     }
     public Page<AidDTO> findAids(Pageable pageable, String search) {
         return aidRepository.searchAids(pageable, search);
+    }
+
+    public Page<AidDTO> searchViaPrice(Pageable pageable, String search,double min, double max){
+        return  aidRepository.searchAidsWithPriceRangeOrderByPriceAsc(pageable,search,min,max);
     }
 
     public Optional<AidDTO> getAidById(Integer id) {
@@ -59,22 +66,6 @@ public class AidService {
         }
         return true;
     }
-//    public AidDTO updateAid(Integer id,AidDTO newData)
-//    {
-//        try {
-//            aidRepository.updateAid(id,
-//                    newData.getName(),
-//                    newData.getManufacturer(),
-//                    newData.getImageURL(),
-//                    newData.getDescription(),
-//                    newData.getPrice(),
-//                    newData.getQuantity());
-//        } catch (Exception exception)
-//        {
-//            System.out.println("Request error: " + exception.getMessage());
-//        }
-//        return newData;
-//    }
     public Integer getAidsCount()
     {
         return aidRepository.getAidsCount();
@@ -83,4 +74,5 @@ public class AidService {
     {
         return aidRepository.getSearchAidsCount(search);
     }
+    public Integer searchViaPriceCount(String search, double min, double max) {return aidRepository.countSearchAidsWithPriceRangeOrderByPriceAsc(search,min,max);}
 }

@@ -16,15 +16,6 @@ public class ViewController {
     public ViewController(AccountService accountService) {
         this.accountService = accountService;
     }
-    @GetMapping("/catalog_pages")
-    public String catalogp(Model model,
-                         @RequestParam(defaultValue = "0") int page,
-                         @RequestParam(defaultValue = "15") int size)
-    {
-        model.addAttribute("page",page);
-        model.addAttribute("size",size);
-        return "catalog";
-    }
     @GetMapping("/catalog")
     public String catalog()
     {
@@ -39,5 +30,10 @@ public class ViewController {
     public String profile()
     {
         return "profile";
+    }
+    @GetMapping("/aids")
+    public String aidPage()
+    {
+        return "aid_page";
     }
 }
