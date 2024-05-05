@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -18,6 +19,12 @@ public interface AccountRepository extends JpaRepository<AccountDTO, UUID> {
     @Modifying
     @Query("UPDATE AccountDTO a SET a.isDeleted = true WHERE a.id = :id AND a.isDeleted = false")
     void deleteSoftById(@Param("id") UUID id);
+
+    @Query("SELECT passwordHash FROM AccountDTO WHERE email = :email")
+    Optional<String> getPasswordHash(@Param("email") String email);
+
+    @Query("SELECT id FROM AccountDTO WHERE email = :email")
+    Optional<UUID> getIdByEmail(@Param("email") String email);
 
     @Transactional
     @Modifying

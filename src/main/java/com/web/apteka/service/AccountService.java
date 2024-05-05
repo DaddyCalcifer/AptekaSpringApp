@@ -18,7 +18,18 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     public AccountDTO createUser(AccountDTO user) {
+        user.setPasswordHash(PasswordUtils.encodePassword(user.getPasswordHash()));
         return accountRepository.save(user);
+    }
+    public String doAuth(String email, String password)
+    {
+        String passwordHash;
+        if(!accountRepository.getPasswordHash(email).isEmpty())
+            passwordHash = accountRepository.getPasswordHash(email).get();
+        else return "Неверный email или пароль!";
+        if(PasswordUtils.verifyPassword(password,passwordHash))
+            return JwtService.generateToken(accountRepository.getIdByEmail(email).get());
+        else return "Неверный email или пароль!";
     }
 
     public List<AccountDTO> getAllUsers() {

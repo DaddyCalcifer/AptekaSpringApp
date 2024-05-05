@@ -36,7 +36,7 @@ const urlParams = new URLSearchParams(window.location.search);
 				        <p class="medicine-description">${aid.manufacturer}</p><br/>
 				        </a>
                         <p class="price">${aid.price} ₽</p>
-				        <button class = "medicine-buy" type="button">В корзину</button>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
                     else
                     aidCard.innerHTML = `
@@ -49,7 +49,7 @@ const urlParams = new URLSearchParams(window.location.search);
 				        </a>
                         <p class="price-old">${aid.price} ₽</p>
                         <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} ₽</p>
-				        <button class = "medicine-buy" type="button">В корзину</button>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
                     // Добавление карточки в контейнер
                     aidsContainer.appendChild(aidCard);
@@ -85,7 +85,7 @@ const urlParams = new URLSearchParams(window.location.search);
 				        </a>
                         <p class="price-old">${aid.price} ₽</p>
                         <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} ₽</p>
-				        <button class = "medicine-buy" type="button">В корзину</button>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
                     // Добавление карточки в контейнер
                     salesContainer.appendChild(aidCard);
@@ -141,7 +141,47 @@ const urlParams = new URLSearchParams(window.location.search);
             const max_Price = document.getElementById("maxPrice").value;
             window.location.href = `http://localhost:8080/catalog?search=${search_val}&minP=${min_Price}&maxP=${max_Price}`;
     }
-    document.addEventListener("DOMContentLoaded", function() {
+
+    function addToCart(aidId) {
+        // Получаем значения полей формы
+        
+        // Формируем JSON объект для отправки на сервер
+        var cartItem = {
+            user_id:null,
+            aid_id: aidId,
+            quantity: 1
+        };
+        
+        // Отправляем POST запрос на сервер
+        fetch(`http://localhost:8080/api/cart/add?jwt=${getCookie("jwt")}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cartItem)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сервера: ' + response.status);
+            }
+            // Дополнительные действия после успешной регистрации
+        })
+        .catch(error => {
+            alert('Ошибка при добавлении в корзину: ' + error.message);
+        });
+        }
+        
+        function getCookie(name) {
+            const cookieArr = document.cookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                const cookiePair = cookieArr[i].split('=');
+                if (name === cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("search_input");
             const minPriceI = document.getElementById("minPrice");
             const maxPriceI = document.getElementById("maxPrice");

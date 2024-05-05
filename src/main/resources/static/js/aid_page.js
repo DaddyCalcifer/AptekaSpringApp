@@ -16,9 +16,57 @@ async function getAidDetails() {
         if(data.discountPercent != 0)
             document.getElementById('old_price').textContent = `${data.price} руб.\t`;
         document.getElementById('price').textContent = `${data.price * (1-(data.discountPercent / 100))} руб.`;
+        document.getElementById('add-to-cart').innerHTML=`
+                <button class="add-to-cart-button" onclick="addToCart(${id});">Добавить в корзину</button>
+                <lord-icon
+                    src="https://cdn.lordicon.com/ulnswmkk.json"
+                    trigger="click"
+                    state="morph-heart"
+                    colors="primary:#1b8f21"
+                    style="width:40px;height:40px;padding-top: 12px;">
+                </lord-icon>
+        `;
     } catch (error) {
         console.error('Ошибка при получении данных о медикаменте:', error);
     }
+}
+function addToCart(aidId) {
+    // Получаем значения полей формы
+    
+    // Формируем JSON объект для отправки на сервер
+    var cartItem = {
+        user_id:null,
+        aid_id: aidId,
+        quantity: 1
+    };
+    
+    // Отправляем POST запрос на сервер
+    fetch(`http://localhost:8080/api/cart/add?jwt=${getCookie("jwt")}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cartItem)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера: ' + response.status);
+        }
+        // Дополнительные действия после успешной регистрации
+    })
+    .catch(error => {
+        alert('Ошибка при добавлении в корзину: ' + error.message);
+    });
+}
+function getCookie(name) {
+    const cookieArr = document.cookie.split(';');
+    for (let i = 0; i < cookieArr.length; i++) {
+        const cookiePair = cookieArr[i].split('=');
+        if (name === cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
 }
 
 // Вызываем функцию для получения данных о медикаменте

@@ -36,4 +36,14 @@ public class ViewController {
     {
         return "aid_page";
     }
+    @GetMapping("/auth")
+    public String authPage()
+    {
+        return "auth";
+    }
+    @GetMapping("/cart")
+    public String cartPage()
+    {
+        return "cart";
+    }
 }

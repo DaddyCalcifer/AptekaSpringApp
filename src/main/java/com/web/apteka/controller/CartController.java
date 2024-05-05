@@ -1,0 +1,59 @@
+package com.web.apteka.controller;
+
+import com.web.apteka.model.AccountDTO;
+import com.web.apteka.model.AidDTO;
+import com.web.apteka.model.CartItemDTO;
+import com.web.apteka.service.AccountService;
+import com.web.apteka.service.CartService;
+import com.web.apteka.service.JwtService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/cart")
+public class CartController {
+    private final CartService cartService;
+    @Autowired
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCartSize(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+            return ResponseEntity.ok().body(cartService.getCartSize(JwtService.getUserIdFromToken(jwt)));
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+    @PostMapping("/add")
+    public ResponseEntity<CartItemDTO> addToCart(@Valid @RequestBody CartItemDTO request,
+                                                 BindingResult bindingResult,
+                                                 @RequestParam String jwt) {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+        if(JwtService.validateToken(jwt)) {
+            request.setUser_id(JwtService.getUserIdFromToken(jwt));
+            CartItemDTO item = cartService.addToCart(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(item);
+        }
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CartItemDTO>> getCartItems(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+        {
+            return ResponseEntity.ok(cartService.getCartItems(JwtService.getUserIdFromToken(jwt)));
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+}

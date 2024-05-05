@@ -61,6 +61,14 @@
 	background: #fff;
   color: #054e23;
 }
+.container span {
+  background-color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  color: #054e23;
+}
+
 .middle_text {
 	text-align: center;
 	font-size: 50px;

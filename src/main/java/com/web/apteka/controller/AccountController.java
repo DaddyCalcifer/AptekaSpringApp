@@ -2,6 +2,7 @@ package com.web.apteka.controller;
 
 import com.web.apteka.model.AccountDTO;
 import com.web.apteka.service.AccountService;
+import com.web.apteka.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +55,16 @@ public class AccountController {
         AccountDTO createdUser = accountService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
+    @PostMapping("/auth")
+    public ResponseEntity<String> doAuth(@Valid @RequestBody AccountDTO request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+
+        String result = accountService.doAuth(request.getEmail(), request.getPasswordHash());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
+    }
     @PatchMapping("/delete/{id}")
     public ResponseEntity<AccountDTO> deleteUserById(@PathVariable UUID id) {
         if(accountService.deleteUser(id)) {
@@ -80,5 +91,12 @@ public class AccountController {
     public ResponseEntity<Integer> getUsersCount() {
         Integer count = accountService.getUsersCount();
         return ResponseEntity.ok(count);
+    }
+    @GetMapping("/id")
+    public ResponseEntity<UUID> getIdWithJWT(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+            return ResponseEntity.ok(JwtService.getUserIdFromToken(jwt));
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
