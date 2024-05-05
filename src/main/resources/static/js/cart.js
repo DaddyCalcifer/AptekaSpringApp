@@ -24,6 +24,7 @@ function loadCart(jwt) {
                     .then(aid => {
                         const aidCard = document.createElement('div');
                         aidCard.classList.add('medicine');
+                        aidCard.id = `item-${aid.id}`;
 
                         // Заполнение информации о товаре
                         const price = aid.discountPercent === 0 ? aid.price : (aid.price * (1 - (aid.discountPercent / 100)));
@@ -36,13 +37,22 @@ function loadCart(jwt) {
                                 <p class="medicine-description">${aid.manufacturer}</p><br/>
                             </a>
                             <div class="cart-item-controls">
-                                <input type="number" value="${cartItem.quantity}" min="1" id="quantity-${cartItem.id}">
+                                <input type="number" value="${cartItem.quantity}" min="1" id="quantity-${aid.id}">
                             </div>
-                            <button class="medicine-buy" type="button">${price * cartItem.quantity} ₽</button>
+                            <button class="medicine-buy" id="buy-${aid.id}" type="button">${price * cartItem.quantity} ₽</button>
                         `;
 
                         // Добавление карточки товара в контейнер
                         aidsContainer.appendChild(aidCard);
+                        var docc = document.getElementById(`quantity-${aid.id}`);
+                        docc.onblur = function() { 
+                            if(docc.value < 1) docc.value = 1;
+                            updateCartItem(aid.id,jwt,price);
+                        }
+                        docc.onchange = function() { 
+                            if(docc.value < 1) docc.value = 1;
+                            updateCartItem(aid.id,jwt,price);
+                        }
                     })
                     .catch(error => console.error('Ошибка загрузки товара:', error));
             });
@@ -60,4 +70,33 @@ function getCookie(name) {
     }
     return null;
 }
+
+function updateCartItem(itemId, jwt, price) {
+    const quantityInput = document.getElementById(`quantity-${itemId}`);
+    const newQuantity = quantityInput.value;
+    var cartItem = {
+        user_id:null,
+        aid_id: itemId,
+        quantity: newQuantity
+    };
+    
+    // Отправляем POST запрос на сервер
+    fetch(`http://localhost:8080/api/cart/reset?jwt=${getCookie("jwt")}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cartItem)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера: ' + response.status);
+        }
+        document.getElementById(`buy-${itemId}`).textContent = `${price*newQuantity} ₽`;
+    })
+    .catch(error => {
+        alert('Ошибка при изменении количества: ' + error.message);
+    });
+}
+
 loadCart(getCookie('jwt'));

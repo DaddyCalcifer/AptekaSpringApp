@@ -31,4 +31,9 @@ public class CartService {
     public List<CartItemDTO> getCartItems(UUID id){
         return cartRepository.getCartItems(id);
     }
+    public CartItemDTO resetCartItemCount(CartItemDTO item)
+    {
+        cartRepository.resetCartItemCount(item.getUser_id(),item.getAid_id(),item.getQuantity());
+        return item;
+    }
 }

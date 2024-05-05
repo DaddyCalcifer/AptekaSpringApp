@@ -56,7 +56,7 @@ fetch('http://localhost:8080/api/users/add', {
     if (!response.ok) {
         throw new Error('Ошибка сервера: ' + response.status);
     }
-    window.location.href = window.location.href.replace('auth','catalog');
+    toLoginForm();
     // Дополнительные действия после успешной регистрации
 })
 .catch(error => {
@@ -121,9 +121,7 @@ document.getElementById('switch-to-register').addEventListener('click', function
 
 // Слушатель для переключения на форму авторизации
 document.getElementById('switch-to-login').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('register-form').style.display = 'none';
-    document.getElementById('login-form').style.display = 'block';
+    toLoginForm();
 });
 });
 function setCookie(name, value, days) {
@@ -140,6 +138,11 @@ function getCookie(name) {
         }
     }
     return null;
+}
+function toLoginForm(){
+    event.preventDefault();
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
 }
 
 // Функция для проверки корректности email

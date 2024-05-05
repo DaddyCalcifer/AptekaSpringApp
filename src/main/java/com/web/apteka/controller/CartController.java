@@ -44,7 +44,7 @@ public class CartController {
             CartItemDTO item = cartService.addToCart(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(item);
         }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
 
     @GetMapping
@@ -53,6 +53,22 @@ public class CartController {
         if(JwtService.validateToken(jwt))
         {
             return ResponseEntity.ok(cartService.getCartItems(JwtService.getUserIdFromToken(jwt)));
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+    @PutMapping("/reset")
+    public ResponseEntity<CartItemDTO> resetCartItemCount(@Valid @RequestBody CartItemDTO request,
+                                                          BindingResult bindingResult,
+                                                          @RequestParam String jwt)
+    {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+        if(JwtService.validateToken(jwt)) {
+            request.setUser_id(JwtService.getUserIdFromToken(jwt));
+            CartItemDTO item = cartService.resetCartItemCount(request);
+            return ResponseEntity.status(HttpStatus.OK).body(item);
         }
         else return ResponseEntity.status(HttpStatus.LOCKED).build();
     }

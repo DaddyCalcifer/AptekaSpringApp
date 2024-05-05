@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('logout').addEventListener('click', function() {
         if (jwtToken) {
             if(confirm("Вы уверены, что хотите выйти из аккаунта?"))
+            {
                 setCookie('jwt',null,0);
+                window.location.href = window.location.href.replace('/profile','/auth');
+            }
         } 
         else 
         {
