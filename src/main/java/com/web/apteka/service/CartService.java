@@ -36,4 +36,9 @@ public class CartService {
         cartRepository.resetCartItemCount(item.getUser_id(),item.getAid_id(),item.getQuantity());
         return item;
     }
+    public boolean deleteCartItem(CartItemDTO item)
+    {
+        cartRepository.deleteFromCart(item.getUser_id(),item.getAid_id());
+        return true;
+    }
 }

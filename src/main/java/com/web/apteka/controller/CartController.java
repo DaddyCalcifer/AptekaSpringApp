@@ -72,4 +72,20 @@ public class CartController {
         }
         else return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteCartItem(@Valid @RequestBody CartItemDTO request,
+                                                          BindingResult bindingResult,
+                                                          @RequestParam String jwt)
+    {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+        if(JwtService.validateToken(jwt)) {
+            request.setUser_id(JwtService.getUserIdFromToken(jwt));
+            Boolean item = cartService.deleteCartItem(request);
+            return ResponseEntity.status(HttpStatus.OK).body(item);
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
 }

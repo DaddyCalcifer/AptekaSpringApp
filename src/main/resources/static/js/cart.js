@@ -38,6 +38,14 @@ function loadCart(jwt) {
                             </a>
                             <div class="cart-item-controls">
                                 <input type="number" value="${cartItem.quantity}" min="1" id="quantity-${aid.id}">
+                                <button onClick='deleteCartItem(${aid.id});'>
+                                    <lord-icon
+                                        src="https://cdn.lordicon.com/wpyrrmcq.json"
+                                        trigger="hover"
+                                        colors="primary:#ffffff"
+                                        style="width:35px;height:35px">
+                                    </lord-icon>
+                                </button>
                             </div>
                             <button class="medicine-buy" id="buy-${aid.id}" type="button">${price * cartItem.quantity} ₽</button>
                         `;
@@ -47,11 +55,11 @@ function loadCart(jwt) {
                         var docc = document.getElementById(`quantity-${aid.id}`);
                         docc.onblur = function() { 
                             if(docc.value < 1) docc.value = 1;
-                            updateCartItem(aid.id,jwt,price);
+                            updateCartItem(aid.id,price);
                         }
                         docc.onchange = function() { 
                             if(docc.value < 1) docc.value = 1;
-                            updateCartItem(aid.id,jwt,price);
+                            updateCartItem(aid.id,price);
                         }
                     })
                     .catch(error => console.error('Ошибка загрузки товара:', error));
@@ -71,7 +79,7 @@ function getCookie(name) {
     return null;
 }
 
-function updateCartItem(itemId, jwt, price) {
+function updateCartItem(itemId, price) {
     const quantityInput = document.getElementById(`quantity-${itemId}`);
     const newQuantity = quantityInput.value;
     var cartItem = {
@@ -96,6 +104,31 @@ function updateCartItem(itemId, jwt, price) {
     })
     .catch(error => {
         alert('Ошибка при изменении количества: ' + error.message);
+    });
+}
+function deleteCartItem(itemId) {
+    var cartItem = {
+        user_id:null,
+        aid_id: itemId,
+        quantity: 0
+    };
+    
+    // Отправляем POST запрос на сервер
+    fetch(`http://localhost:8080/api/cart/delete?jwt=${getCookie("jwt")}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cartItem)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера: ' + response.status);
+        }
+        document.getElementById(`item-${itemId}`).style.display = 'none';
+    })
+    .catch(error => {
+        alert('Ошибка при удалении из корзины: ' + error.message);
     });
 }
 

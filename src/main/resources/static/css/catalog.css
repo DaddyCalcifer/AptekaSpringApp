@@ -371,11 +371,12 @@ body {
 }
 
 .cart-item-controls button {
-    padding: 20px 20px;
+    margin-left: 5%;
+    height: 50px;
+    width: 30%;
     color:#fff;
-    background-color: #1b8f21;
+    background-color: #881313;
     font-size: 20px;
-    margin: 0 5px;
     cursor: pointer;
     border: none;
     border-radius: 15px;
@@ -383,11 +384,11 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 .cart-item-controls button:hover {
-    background-color: #054e23;
+    background-color: #4e0505;
 }
 
 .cart-item-controls input[type="number"] {
-    width: 100%;
+    width: 65%;
     padding: 10px;
     border: 3px solid #05441f;
     border-radius: 15px;

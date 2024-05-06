@@ -31,6 +31,11 @@ public interface CartItemRepository extends JpaRepository<CartItemDTO, Integer> 
     @Query("UPDATE CartItemDTO SET quantity = :count WHERE aid_id=:aid_id AND user_id=:user_id")
     void resetCartItemCount(@Param("user_id") UUID user_id, @Param("aid_id") Integer aid_id, @Param("count") Integer count);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM CartItemDTO WHERE aid_id=:aid_id AND user_id=:user_id")
+    void deleteFromCart(@Param("user_id") UUID user_id, @Param("aid_id") Integer aid_id);
+
     @Query("SELECT COUNT(*) FROM CartItemDTO WHERE user_id= :user_id AND aid_id=:aid_id")
     Integer getCartItemExisted(@Param("user_id") UUID id, @Param("aid_id") Integer aid_id);
 
