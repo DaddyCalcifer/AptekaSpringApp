@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем наличие JWT токена в cookie
     const jwtToken = getCookieJwt('jwt');
+    getProfileData(jwtToken);
 
     // Получаем элементы для кнопок
     document.getElementById('logout').addEventListener('click', function() {
@@ -28,6 +29,19 @@ function getCookieJwt(name) {
         }
     }
     return null;
+}
+async function getProfileData(jwt){
+    try {
+        const response = await fetch(`http://localhost:8080/api/users/data?jwt=${jwt}`);
+        const data = await response.json();
+
+        // Отображаем данные о медикаменте на странице
+        document.getElementById('email').value = data.email;
+        document.getElementById('name').value = `${data.name}`;
+        document.getElementById('address').value = `${data.address}`;
+    } catch (error) {
+        console.error('Ошибка при получении данных о медикаменте:', error);
+    }
 }
 function setCookie(name, value, days) {
     const expires = new Date();

@@ -54,8 +54,12 @@ public class AccountDTO {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    @Column(name="address")
+    private String address;
+
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        address = "";
+        this.updatedAt = this.createdAt = LocalDateTime.now();
     }
 }

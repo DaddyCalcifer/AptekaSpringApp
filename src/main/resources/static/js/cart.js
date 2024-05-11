@@ -112,7 +112,8 @@ function deleteCartItem(itemId) {
         aid_id: itemId,
         quantity: 0
     };
-    
+    if(!confirm('Удалить товар из корзины?'))
+        return;
     // Отправляем POST запрос на сервер
     fetch(`http://localhost:8080/api/cart/delete?jwt=${getCookie("jwt")}`, {
         method: 'DELETE',

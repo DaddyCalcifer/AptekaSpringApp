@@ -32,6 +32,16 @@ public class AccountController {
         return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/data")
+    public ResponseEntity<AccountDTO> getUserByJWT(@RequestParam String jwt) {
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            Optional<AccountDTO> userOptional = accountService.getUserById(id);
+            return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } else
+            return new ResponseEntity<>(HttpStatus.LOCKED);
+    }
     //Добавил пагинацию для оптимизации памяти при большом количестве записей в бд [14.04]
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllUsers(@RequestParam(defaultValue = "0") int page,

@@ -56,7 +56,8 @@ fetch('http://localhost:8080/api/users/add', {
     if (!response.ok) {
         throw new Error('Ошибка сервера: ' + response.status);
     }
-    toLoginForm();
+    alert("Аккаунт успешно создан!");
+    //toLoginForm();
     // Дополнительные действия после успешной регистрации
 })
 .catch(error => {
