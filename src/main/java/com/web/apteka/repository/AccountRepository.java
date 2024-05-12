@@ -40,11 +40,25 @@ public interface AccountRepository extends JpaRepository<AccountDTO, UUID> {
     @Modifying
     @Query("UPDATE AccountDTO a SET " +
             "a.name = :name, " +
-            "a.email = :email " +
+            "a.email = :email, " +
+            "a.address = :address " +
             "WHERE a.id = :id")
     void updateUser(@Param("id") UUID id,
                     @Param("name") String name,
-                    @Param("email") String email);
+                    @Param("email") String email,
+                    @Param("address") String address);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE AccountDTO a SET " +
+            "a.passwordHash = :new_ " +
+            "WHERE a.id = :id")
+    void resetPassword(@Param("id") UUID id,
+                    @Param("new_") String new_);
+
+    @Query("SELECT passwordHash FROM AccountDTO WHERE id = :id")
+    String getPassHash(@Param("id") UUID id);
+
     @Query("SELECT COUNT(*) FROM AccountDTO")
     Integer getUserCount();
 

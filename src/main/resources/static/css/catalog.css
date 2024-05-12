@@ -25,7 +25,7 @@ body {
 }
 .catalog {
     display: flex;
-    flex-grow: 1; /* ����������� �� ����� �������� */
+    flex-grow: 1; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
 .catalog-title {
@@ -37,9 +37,9 @@ body {
 
 .medicine-list {
     display: flex;
-    flex-direction: row; /* Элементы располагаются в строку */
-    flex-wrap: wrap; /* Элементы переносятся на новую строку при необходимости */
-    gap: 20px; /* Отступы между элементами */
+    flex-direction: row; /* Р­Р»РµРјРµРЅС‚С‹ СЂР°СЃРїРѕР»Р°РіР°СЋС‚СЃСЏ РІ СЃС‚СЂРѕРєСѓ */
+    flex-wrap: wrap; /* Р­Р»РµРјРµРЅС‚С‹ РїРµСЂРµРЅРѕСЃСЏС‚СЃСЏ РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё */
+    gap: 20px; /* РћС‚СЃС‚СѓРїС‹ РјРµР¶РґСѓ СЌР»РµРјРµРЅС‚Р°РјРё */
     overflow-x: auto;
     padding: 20px;
 }
@@ -51,8 +51,8 @@ body {
 
 .medicine-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Создает плитку с колонками шириной не менее 200px */
-    gap: 20px; /* Расстояние между карточками */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* РЎРѕР·РґР°РµС‚ РїР»РёС‚РєСѓ СЃ РєРѕР»РѕРЅРєР°РјРё С€РёСЂРёРЅРѕР№ РЅРµ РјРµРЅРµРµ 200px */
+    gap: 20px; /* Р Р°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РєР°СЂС‚РѕС‡РєР°РјРё */
 }
 
 .medicine {
@@ -72,26 +72,26 @@ body {
     transform: translateY(-5px);
     box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
 }
-/* ����� ��� ������ ��������� */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .medicine-list::-webkit-scrollbar {
-    width: 120px; /* ������ ������ ��������� */
+    width: 120px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     height: 25px;
 }
 
-/* ����� ��� ����� ��������� */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .medicine-list::-webkit-scrollbar-track {
-    background: transparent; /* ���� ����� */
+    background: transparent; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 }
 
-/* ����� ��� �������� ��������� */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .medicine-list::-webkit-scrollbar-thumb {
-    background: #054e23; /* ���� �������� */
-    border-radius: 5px; /* ���������� ����� �������� */
+    background: #054e23; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    border-radius: 5px; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
-/* ����� ��� �������� ��� ��������� */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .medicine-list::-webkit-scrollbar-thumb:hover {
-    background: #05441f; /* ���� �������� ��� ��������� */
+    background: #05441f; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
 .medicine img {
@@ -104,21 +104,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%; /* ������ ���� ������ */
-    margin: 0 auto; /* ������������� */
+    width: 70%; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    margin: 0 auto; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     padding: 20px;
 }
-.search-container.sidebar {
+.search-container-sidebar {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; /* ������ ���� ������ */
-    margin: 0 auto; /* ������������� */
+    width: 100%; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    margin: 0 auto; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     padding: 20px;
 }
 
-.search-container input[type="text"] {
-    flex: 1; /* ����������� ���� �� ��� ��������� ������ */
+.search-container input {
+    flex: 1; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
     padding: 10px;
     font-size: 16px;
     border: 1px solid #054e23;
@@ -155,7 +155,7 @@ body {
 .medicine-buy:hover {
     background-color: #054e23;
 }
-/* ����� ��� ������� ������ */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 .sidebar {
     width: 15%;
     min-width: 200px;
@@ -167,7 +167,7 @@ body {
     position: relative;
 }
 
-/* ����� ��� �������� */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 .filter {
     margin-bottom: 20px;
 }
@@ -176,7 +176,7 @@ body {
     font-weight: bold;
 }
 
-.filter input[type="text"] {
+.filter input[type="number"] {
     width: calc(100% - 10px);
     padding: 8px;
     margin-top: 4px;
@@ -200,30 +200,30 @@ body {
     background-color: #45a049;
 }
 .price {
-    font-size: 18px; /* ������ ������ */
-    color: #006e06; /* ���� ������ */
-    font-weight: bold; /* ������ ����� */
+    font-size: 18px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    color: #006e06; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    font-weight: bold; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 }
 .price-old {
     display: inline-block;
-    font-size: 18px; /* Размер шрифта */
-    color: gray; /* Серый цвет текста */
-    text-decoration: line-through; /* Перечеркнутый текст */
+    font-size: 18px; /* Р Р°Р·РјРµСЂ С€СЂРёС„С‚Р° */
+    color: gray; /* РЎРµСЂС‹Р№ С†РІРµС‚ С‚РµРєСЃС‚Р° */
+    text-decoration: line-through; /* РџРµСЂРµС‡РµСЂРєРЅСѓС‚С‹Р№ С‚РµРєСЃС‚ */
 }
 .price-sale {
     display: inline-block;
-    font-size: 20px; /* ������ ������ */
-    color: #9c2e8e; /* ���� ������ */
-    font-weight: bold; /* ������ ����� */
+    font-size: 20px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    color: #9c2e8e; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    font-weight: bold; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 }
 .medicine-description {
-    height: 3em; /* Минимальная высота параграфа для отображения двух строк */
-    line-height: 1.5; /* Высота строки */
+    height: 3em; /* РњРёРЅРёРјР°Р»СЊРЅР°СЏ РІС‹СЃРѕС‚Р° РїР°СЂР°РіСЂР°С„Р° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РґРІСѓС… СЃС‚СЂРѕРє */
+    line-height: 1.5; /* Р’С‹СЃРѕС‚Р° СЃС‚СЂРѕРєРё */
 }
 .medicine-name {
-    white-space: nowrap; /* Запрет переноса текста на новую строку */
-    overflow: hidden; /* Скрытие части текста, которая не помещается */
-    text-overflow: ellipsis; /* Отображение многоточия, если текст не помещается */
+    white-space: nowrap; /* Р—Р°РїСЂРµС‚ РїРµСЂРµРЅРѕСЃР° С‚РµРєСЃС‚Р° РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ */
+    overflow: hidden; /* РЎРєСЂС‹С‚РёРµ С‡Р°СЃС‚Рё С‚РµРєСЃС‚Р°, РєРѕС‚РѕСЂР°СЏ РЅРµ РїРѕРјРµС‰Р°РµС‚СЃСЏ */
+    text-overflow: ellipsis; /* РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РјРЅРѕРіРѕС‚РѕС‡РёСЏ, РµСЃР»Рё С‚РµРєСЃС‚ РЅРµ РїРѕРјРµС‰Р°РµС‚СЃСЏ */
 }
 .pages-container {
     justify-content: center;
@@ -423,4 +423,14 @@ body {
     border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+}
+.search-input a{
+    margin-left: 90%;
+    display: none;
+    font-size: 20px;
+}
+.search-input:hover a{
+    margin-left: 90%;
+    display: none;
+    font-size: 20px;
 }

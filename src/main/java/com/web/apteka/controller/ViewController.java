@@ -46,4 +46,9 @@ public class ViewController {
     {
         return "cart";
     }
+    @GetMapping("/favorite")
+    public String favPage()
+    {
+        return "favorite";
+    }
 }

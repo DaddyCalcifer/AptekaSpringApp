@@ -1,8 +1,13 @@
 package com.web.apteka.controller;
 
 import com.web.apteka.model.AccountDTO;
+import com.web.apteka.model.AidDTO;
+import com.web.apteka.model.CartItemDTO;
+import com.web.apteka.model.FavoriteDTO;
 import com.web.apteka.service.AccountService;
+import com.web.apteka.service.FavoriteService;
 import com.web.apteka.service.JwtService;
+import com.web.apteka.service.PasswordUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +26,10 @@ import java.util.UUID;
 @RequestMapping("/api/users")
 public class AccountController {
     private final AccountService accountService;
+    private final FavoriteService favoriteService;
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, FavoriteService favoriteService) {
+        this.favoriteService = favoriteService;
         this.accountService = accountService;
     }
 
@@ -89,13 +96,31 @@ public class AccountController {
         }
         else return ResponseEntity.notFound().build();
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AccountDTO> updateUser(@PathVariable UUID id, @RequestBody AccountDTO newData)
+    @PutMapping("/update")
+    public ResponseEntity<AccountDTO> updateUser(@RequestParam String jwt, @RequestBody AccountDTO newData)
     {
-        if(!accountService.getUserById(id).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.updateUser(id,newData));
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            if (accountService.getUserById(id).isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(accountService.updateUser(id, newData));
+            } else return ResponseEntity.notFound().build();
         }
-        else return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+    @PatchMapping("/update/password")
+    public ResponseEntity<AccountDTO> resetPassword(@RequestParam String jwt, @RequestParam String current, @RequestParam String new_)
+    {
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            if (accountService.getUserById(id).isPresent()) {
+                if(PasswordUtils.verifyPassword(current, accountService.getUserHashPass(id))) {
+                    new_ = PasswordUtils.encodePassword(new_);
+                    accountService.resetPassword(id, new_);
+                    return ResponseEntity.status(HttpStatus.OK).build();
+                } else ResponseEntity.status(HttpStatus.LOCKED);
+            } else return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
     @GetMapping("/count")
     public ResponseEntity<Integer> getUsersCount() {
@@ -108,5 +133,52 @@ public class AccountController {
         if(JwtService.validateToken(jwt))
             return ResponseEntity.ok(JwtService.getUserIdFromToken(jwt));
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    //Избранное
+    @GetMapping("/favorite")
+    public ResponseEntity<List<FavoriteDTO>> getFavs(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "20") int size,
+                                                        @RequestParam String jwt,
+                                                        @RequestParam(defaultValue = "") String search) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FavoriteDTO> favsPage;
+
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            favsPage = favoriteService.searchFav(pageable, id, search);
+            if (favsPage.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(favsPage.getContent());
+            }
+        } else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+
+    @PostMapping("/favorite/add")
+    public ResponseEntity<FavoriteDTO> addToFav(@Valid @RequestBody FavoriteDTO request,
+                                                 BindingResult bindingResult,
+                                                 @RequestParam String jwt) {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+        if(JwtService.validateToken(jwt)) {
+            request.setUser_id(JwtService.getUserIdFromToken(jwt));
+            FavoriteDTO item = favoriteService.addToFav(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(item);
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+    @GetMapping("/favorite/count")
+    public ResponseEntity<Integer> getFavCount(@RequestParam String jwt,
+                                               @RequestParam(defaultValue = "") String search)
+    {
+        if(JwtService.validateToken(jwt))
+        {
+            var id = JwtService.getUserIdFromToken(jwt);
+            return ResponseEntity.status(HttpStatus.OK).body(favoriteService.getFavCount(id,search));
+        }
+        return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
 }

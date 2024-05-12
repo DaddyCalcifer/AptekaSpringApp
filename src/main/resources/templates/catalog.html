@@ -26,8 +26,8 @@
 			<h2 class="catalog-title" style="margin-top: 20px;">Фильтры</h2>
 			<div class="filter">
 				<label for="price">Диапазон цены:</label>
-				<input type="text" class="search-container.sidebar" placeholder="От" id="minPrice">
-				<input type="text" class="search-container.sidebar" placeholder="До" id="maxPrice">
+				<input type="number" placeholder="От" id="minPrice">
+				<input type="number" placeholder="До" id="maxPrice">
 			</div>
 			<div class="filter">
 				<label for="type">Сортировать:</label>
@@ -38,6 +38,14 @@
 		<div class="medicine-main">
 			<div class="search-container">
 				<input type="text" id="search_input" placeholder="Поиск товара...">
+				<a href="catalog">
+					<lord-icon
+						src="https://cdn.lordicon.com/zxvuvcnc.json"
+						trigger="hover"
+						colors="primary:#0a5c15"
+						style="width:25px;height:25px; margin-left: -40px; margin-top: 3px;">
+					</lord-icon>
+				</a>
 				<button type="button" onclick="applyFilter();">Найти</button>
 			</div>
         	<h2 class="catalog-title">Выгодная полка</h2>

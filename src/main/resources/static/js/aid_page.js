@@ -19,6 +19,7 @@ async function getAidDetails() {
         document.getElementById('add-to-cart').innerHTML=`
                 <button class="add-to-cart-button" onclick="addToCart(${id});">Добавить в корзину</button>
                 <lord-icon
+                    onclick="addToFav(${id});"
                     src="https://cdn.lordicon.com/ulnswmkk.json"
                     trigger="click"
                     state="morph-heart"
@@ -58,6 +59,32 @@ function addToCart(aidId) {
         alert('Ошибка при добавлении в корзину: ' + error.message);
     });
 }
+
+function addToFav(aidId) {
+    var favItem = {
+        user_id:null,
+        aid_id: aidId
+    };
+    
+    // Отправляем POST запрос на сервер
+    fetch(`http://localhost:8080/api/users/favorite/add?jwt=${getCookie("jwt")}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(favItem)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера: ' + response.status);
+        }
+        // Дополнительные действия после успешной регистрации
+    })
+    .catch(error => {
+        alert('Ошибка при добавлении в избранное: ' + error.message);
+    });
+}
+
 function getCookie(name) {
     const cookieArr = document.cookie.split(';');
     for (let i = 0; i < cookieArr.length; i++) {

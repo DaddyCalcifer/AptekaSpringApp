@@ -1,97 +1,97 @@
 const urlParams = new URLSearchParams(window.location.search);
-    const _page = urlParams.get('page') || 0; // Р•СЃР»Рё РїР°СЂР°РјРµС‚СЂ РЅРµ СѓРєР°Р·Р°РЅ, РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ 1
+    const _page = urlParams.get('page') || 0; // Если параметр не указан, используется значение по умолчанию 1
     const _search = urlParams.get('search') || '';
-    const pageSize = 16; // Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹
+    const pageSize = 16; // Размер страницы
     const minP = urlParams.get('minP') || 0;
     const maxP = urlParams.get('maxP') || 999999;
     var sort = 'ASC';
 
-    // Р¤СѓРЅРєС†РёСЏ РґР»СЏ Р·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С… Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС…
+    // Функция для загрузки данных о пользователях
     function loadAids(page) {
         const url = `http://localhost:8080/api/aids?page=${page}&size=${pageSize}&minP=${minP}&maxP=${maxP}&search=${_search}`;
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('РћС€РёР±РєР° HTTP: ' + response.status);
+                    throw new Error('Ошибка HTTP: ' + response.status);
                 }
-                return response.json(); // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РѕС‚РІРµС‚Р° РІ JSON
+                return response.json(); // Преобразование ответа в JSON
             })
             .then(aids => {
                 const aidsContainer = document.getElementById('aids-container');
-                // РћС‡РёСЃС‚РєР° РєРѕРЅС‚РµР№РЅРµСЂР° РїРµСЂРµРґ РґРѕР±Р°РІР»РµРЅРёРµРј РЅРѕРІС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+                // Очистка контейнера перед добавлением новых пользователей
                 aidsContainer.innerHTML = '';
-                // РџСЂРѕС…РѕРґ РїРѕ РєР°Р¶РґРѕРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ Рё СЃРѕР·РґР°РЅРёРµ РєР°СЂС‚РѕС‡РєРё
+                // Проход по каждому пользователю и создание карточки
                 aids.forEach(aid => {
                     const aidCard = document.createElement('div');
                     aidCard.classList.add('medicine');
 
-                    // Р—Р°РїРѕР»РЅРµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ
+                    // Заполнение информации о пользователе
                     if(aid.discountPercent==0)
                     aidCard.innerHTML = `
                         <a href="aids?id=${aid.id}" style="text-decoration: none; color: #000;">
-                        <img src="${aid.imageURL}" alt="РљР°СЂС‚РёРЅРєР°">
+                        <img src="${aid.imageURL}" alt="Картинка">
 				        <h3 class="medicine-name">${aid.name}</h3>
                         </a>
                         <a href="catalog?search=${aid.manufacturer}" style="text-decoration: none; color: #000;">
 				        <p class="medicine-description">${aid.manufacturer}</p><br/>
 				        </a>
-                        <p class="price">${aid.price} в‚Ѕ</p>
-				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">Р’ РєРѕСЂР·РёРЅСѓ</button>
+                        <p class="price">${aid.price} ?</p>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
                     else
                     aidCard.innerHTML = `
                         <a href="aids?id=${aid.id}" style="text-decoration: none; color: #000;">
-                        <img src="${aid.imageURL}" alt="РљР°СЂС‚РёРЅРєР°">
+                        <img src="${aid.imageURL}" alt="Картинка">
 				        <h3 class="medicine-name">${aid.name}</h3>
                         </a>
                         <a href="catalog?search=${aid.manufacturer}" style="text-decoration: none; color: #000;">
 				        <p class="medicine-description">${aid.manufacturer}</p><br/>
 				        </a>
-                        <p class="price-old">${aid.price} в‚Ѕ</p>
-                        <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} в‚Ѕ</p>
-				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">Р’ РєРѕСЂР·РёРЅСѓ</button>
+                        <p class="price-old">${aid.price} ?</p>
+                        <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} ?</p>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
-                    // Р”РѕР±Р°РІР»РµРЅРёРµ РєР°СЂС‚РѕС‡РєРё РІ РєРѕРЅС‚РµР№РЅРµСЂ
+                    // Добавление карточки в контейнер
                     aidsContainer.appendChild(aidCard);
                 });
             })
-            .catch(error => console.error('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё С‚РѕРІР°СЂРѕРІ:', error));
+            .catch(error => console.error('Ошибка загрузки товаров:', error));
     }
     function loadSales() {
         const url = `http://localhost:8080/api/aids/sale`;
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('РћС€РёР±РєР° HTTP: ' + response.status);
+                    throw new Error('Ошибка HTTP: ' + response.status);
                 }
-                return response.json(); // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РѕС‚РІРµС‚Р° РІ JSON
+                return response.json(); // Преобразование ответа в JSON
             })
             .then(aids => {
                 const salesContainer = document.getElementById('sale-container');
-                // РћС‡РёСЃС‚РєР° РєРѕРЅС‚РµР№РЅРµСЂР° РїРµСЂРµРґ РґРѕР±Р°РІР»РµРЅРёРµРј РЅРѕРІС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+                // Очистка контейнера перед добавлением новых пользователей
                 salesContainer.innerHTML = '';
-                // РџСЂРѕС…РѕРґ РїРѕ РєР°Р¶РґРѕРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ Рё СЃРѕР·РґР°РЅРёРµ РєР°СЂС‚РѕС‡РєРё
+                // Проход по каждому пользователю и создание карточки
                 aids.forEach(aid => {
                     const aidCard = document.createElement('div');
                     aidCard.classList.add('medicine');
 
                     aidCard.innerHTML = `
                         <a href="aids?id=${aid.id}" style="text-decoration: none; color: #000;">
-                        <img src="${aid.imageURL}" alt="РљР°СЂС‚РёРЅРєР°">
+                        <img src="${aid.imageURL}" alt="Картинка">
 				        <h3 class="medicine-name">${aid.name}</h3>
                         </a>
                         <a href="catalog?search=${aid.manufacturer}" style="text-decoration: none; color: #000;">
 				        <p class="medicine-description">${aid.manufacturer}</p><br/>
 				        </a>
-                        <p class="price-old">${aid.price} в‚Ѕ</p>
-                        <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} в‚Ѕ</p>
-				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">Р’ РєРѕСЂР·РёРЅСѓ</button>
+                        <p class="price-old">${aid.price} ?</p>
+                        <p class="price-sale">${aid.price * (1-(aid.discountPercent / 100))} ?</p>
+				        <button class = "medicine-buy" type="button" onClick="addToCart(${aid.id});">В корзину</button>
                     `;
-                    // Р”РѕР±Р°РІР»РµРЅРёРµ РєР°СЂС‚РѕС‡РєРё РІ РєРѕРЅС‚РµР№РЅРµСЂ
+                    // Добавление карточки в контейнер
                     salesContainer.appendChild(aidCard);
                 });
             })
-            .catch(error => console.error('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё С‚РѕРІР°СЂРѕРІ:', error));
+            .catch(error => console.error('Ошибка загрузки товаров:', error));
     }
     function changeSort()
     {
@@ -99,23 +99,23 @@ const urlParams = new URLSearchParams(window.location.search);
 
             if (sort === 'DESC') {
                 sort = 'ASC';
-                button.textContent = 'РЎРЅР°С‡Р°Р»Р° РґРµС€РµРІС‹Рµ';
+                button.textContent = 'Сначала дешевые';
             } else {
                 sort = 'DESC';
-                button.textContent = 'РЎРЅР°С‡Р°Р»Р° РґРѕСЂРѕРіРёРµ';
+                button.textContent = 'Сначала дорогие';
             }
     }
     function loadPages() {
-        // Р—Р°РїСЂРѕСЃ РЅР° РїРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… Рѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏС…
+        // Запрос на получение данных о пользователях
         const url2 = `http://localhost:8080/api/aids/count?search=${_search}&minP=${minP}&maxP=${maxP}`;
         fetch(url2)
         .then(response => response.json())
         .then(data => {
-            const numberData = Number(data); // РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РґР°РЅРЅС‹С… РІ С‡РёСЃР»Рѕ
+            const numberData = Number(data); // Преобразование данных в число
             const container = document.getElementById('pages-container');
 
             if(numberData > pageSize){
-            // Р¦РёРєР» РґР»СЏ СЃРѕР·РґР°РЅРёСЏ СЃСЃС‹Р»РѕРє РЅР° СЃС‚СЂР°РЅРёС†С‹
+            // Цикл для создания ссылок на страницы
             for (let page = 0; page < numberData/pageSize; page++) {
                         const link = document.createElement('a');
                         link.href = `?page=${page}&search=${_search}&minP=${minP}&maxP=${maxP}#aids-container`;
@@ -124,14 +124,14 @@ const urlParams = new URLSearchParams(window.location.search);
                         if(page ==_page)
                             link.style = 'background-color: #054e23;';
 
-                        // Р”РѕР±Р°РІР»РµРЅРёРµ СЃСЃС‹Р»РєРё РІ РєРѕРЅС‚РµР№РЅРµСЂ
+                        // Добавление ссылки в контейнер
                         container.appendChild(link);
                     }
                 }
             })
-            .catch(error => console.error('РћС€РёР±РєР°:', error));
+            .catch(error => console.error('Ошибка:', error));
         }
-    // Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРµСЂРµС…РѕРґР° Рє РїСЂРѕС„РёР»СЋ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+    // Функция для перехода к профилю выбранного пользователя
     function viewAid(aidId) {
         window.location.href = `http://localhost:8080/api/aids/${aidId}`;
     }
@@ -143,16 +143,16 @@ const urlParams = new URLSearchParams(window.location.search);
     }
 
     function addToCart(aidId) {
-        // РџРѕР»СѓС‡Р°РµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕР»РµР№ С„РѕСЂРјС‹
+        // Получаем значения полей формы
         
-        // Р¤РѕСЂРјРёСЂСѓРµРј JSON РѕР±СЉРµРєС‚ РґР»СЏ РѕС‚РїСЂР°РІРєРё РЅР° СЃРµСЂРІРµСЂ
+        // Формируем JSON объект для отправки на сервер
         var cartItem = {
             user_id:null,
             aid_id: aidId,
             quantity: 1
         };
         
-        // РћС‚РїСЂР°РІР»СЏРµРј POST Р·Р°РїСЂРѕСЃ РЅР° СЃРµСЂРІРµСЂ
+        // Отправляем POST запрос на сервер
         fetch(`http://localhost:8080/api/cart/add?jwt=${getCookie("jwt")}`, {
             method: 'POST',
             headers: {
@@ -162,14 +162,14 @@ const urlParams = new URLSearchParams(window.location.search);
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('РћС€РёР±РєР° СЃРµСЂРІРµСЂР°: ' + response.status);
+                throw new Error('Ошибка сервера: ' + response.status);
             }
-            // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РґРµР№СЃС‚РІРёСЏ РїРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕР№ СЂРµРіРёСЃС‚СЂР°С†РёРё
+            // Дополнительные действия после успешной регистрации
         })
         .catch(error => {
-            alert('РћС€РёР±РєР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РІ РєРѕСЂР·РёРЅСѓ: ' + error.message);
+            alert('Ошибка при добавлении в корзину: ' + error.message);
         });
-        }
+    }
         
         function getCookie(name) {
             const cookieArr = document.cookie.split(';');

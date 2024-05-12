@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избранное</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/catalog.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <script th:src="@{/js/favorite.js}" type="text/javascript"></script>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script th:src="@{/js/header.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="header">Онлайн-аптека
+    <div class="container" id="header">
+        <a href="index" style="margin: 0px 10px;">Главная</a>
+        <a href="catalog" style="margin: 0px 10px;">Каталог</a>
+        <a href="about" style="margin: 0px 10px;">О нас</a>
+        <a href="contacts" style="margin: 0px 10px;">Контакты</a>
+        <a href="auth" style="margin: 0px 10px;">Регистрация / Вход</a>
+    </div>
+</div>
+
+<main class="catalog">
+    <div class="medicine-main" style="margin-left: 5%; width: 100%;">
+        <div class="search-container">
+            <input type="text" id="search_input" placeholder="Поиск товара...">
+            <a href="favorite">
+                <lord-icon
+                    src="https://cdn.lordicon.com/zxvuvcnc.json"
+                    trigger="hover"
+                    colors="primary:#0a5c15"
+                    style="width:25px;height:25px; margin-left: -40px; margin-top: 3px;">
+                </lord-icon>
+            </a>
+            <button type="button" onclick="applyFilter();">Найти</button>
+        </div>
+        <h2 class="catalog-title">Избранное</h2>
+        <div class="medicine-list" id="aids-container">
+            <h2 class="catalog-title">Ничего не найдено...</h2>
+        </div>
+        <div id="pages-container" class="pages-container" style="margin-top: 20px; margin-bottom: 20px;">
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <h2 class="partner-title">Наши партнёры:</h2>
+        <div class="partner-logos">
+            <img src="https://via.placeholder.com/100" alt="Партнёр 1">
+            <img src="https://via.placeholder.com/100" alt="Партнёр 2">
+            <img src="https://via.placeholder.com/100" alt="Партнёр 3">
+        </div>
+    </div>
+</footer>
+</body>
+</html>

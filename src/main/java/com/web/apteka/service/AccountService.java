@@ -72,7 +72,8 @@ public class AccountService {
         try {
             accountRepository.updateUser(id,
                     newData.getName(),
-                    newData.getEmail());
+                    newData.getEmail(),
+                    newData.getAddress());
             accountRepository.setUpdatedAtById(id,LocalDateTime.now());
         } catch (Exception exception)
         {
@@ -80,8 +81,19 @@ public class AccountService {
         }
         return newData;
     }
+    public void resetPassword(UUID id, String new_)
+    {
+        try {
+            accountRepository.resetPassword(id,new_);
+            accountRepository.setUpdatedAtById(id,LocalDateTime.now());
+        } catch (Exception exception)
+        {
+            System.out.println("Request error: " + exception.getMessage());
+        }
+    }
     public Integer getUsersCount()
     {
         return accountRepository.getUserCount();
     }
+    public String getUserHashPass(UUID id) { return accountRepository.getPassHash(id);}
 }
