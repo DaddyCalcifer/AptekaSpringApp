@@ -25,6 +25,9 @@ public class HistoryItemDTO {
     @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "status")
+    private Integer status;
+
     @Column(name = "price")
     private double price;
 
@@ -32,8 +35,13 @@ public class HistoryItemDTO {
     @Column(name = "bought_at", updatable = false)
     private LocalDateTime boughtAt;
 
+    @Column(name = "delivery_date")
+    private LocalDateTime deliveryDate;
+
     @PrePersist
     public void prePersist() {
         this.boughtAt = LocalDateTime.now();
+        this.status = 0;
+        this.deliveryDate = LocalDateTime.now().plusDays(2);
     }
 }

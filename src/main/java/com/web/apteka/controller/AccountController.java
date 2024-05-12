@@ -1,13 +1,7 @@
 package com.web.apteka.controller;
 
-import com.web.apteka.model.AccountDTO;
-import com.web.apteka.model.AidDTO;
-import com.web.apteka.model.CartItemDTO;
-import com.web.apteka.model.FavoriteDTO;
-import com.web.apteka.service.AccountService;
-import com.web.apteka.service.FavoriteService;
-import com.web.apteka.service.JwtService;
-import com.web.apteka.service.PasswordUtils;
+import com.web.apteka.model.*;
+import com.web.apteka.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,10 +21,12 @@ import java.util.UUID;
 public class AccountController {
     private final AccountService accountService;
     private final FavoriteService favoriteService;
+    private final HistoryService historyService;
     @Autowired
-    public AccountController(AccountService accountService, FavoriteService favoriteService) {
+    public AccountController(AccountService accountService, FavoriteService favoriteService, HistoryService historyService) {
         this.favoriteService = favoriteService;
         this.accountService = accountService;
+        this.historyService = historyService;
     }
 
     @GetMapping("/{id}")
@@ -178,6 +174,51 @@ public class AccountController {
         {
             var id = JwtService.getUserIdFromToken(jwt);
             return ResponseEntity.status(HttpStatus.OK).body(favoriteService.getFavCount(id,search));
+        }
+        return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+
+    //Покупки
+    @GetMapping("/history")
+    public ResponseEntity<List<HistoryItemDTO>> getHistory(@RequestParam(defaultValue = "0") int page,
+                                                          @RequestParam(defaultValue = "20") int size,
+                                                          @RequestParam String jwt) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<HistoryItemDTO> historyPage;
+
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            historyPage = historyService.getHistory(pageable, id);
+            if (historyPage.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(historyPage.getContent());
+            }
+        } else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+
+    @PostMapping("/history/add")
+    public ResponseEntity<HistoryItemDTO> addToHistory(@Valid @RequestBody HistoryItemDTO request,
+                                                BindingResult bindingResult,
+                                                @RequestParam String jwt) {
+        if (bindingResult.hasErrors()) {
+            // Обработка ошибок валидации
+            return ResponseEntity.badRequest().build();
+        }
+        if(JwtService.validateToken(jwt)) {
+            request.setUser_id(JwtService.getUserIdFromToken(jwt));
+            HistoryItemDTO item = historyService.buyItem(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(item);
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+    @GetMapping("/history/count")
+    public ResponseEntity<Integer> getHistoryCount(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+        {
+            var id = JwtService.getUserIdFromToken(jwt);
+            return ResponseEntity.status(HttpStatus.OK).body(historyService.getHistorySize(id));
         }
         return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
