@@ -45,6 +45,23 @@ public class AccountController {
         } else
             return new ResponseEntity<>(HttpStatus.LOCKED);
     }
+    @GetMapping("/address")
+    public ResponseEntity<String> getAddressByJWT(@RequestParam String jwt) {
+        if(JwtService.validateToken(jwt)) {
+            var id = JwtService.getUserIdFromToken(jwt);
+            String address = accountService.getUserAddress(id);
+            return ResponseEntity.status(HttpStatus.OK).body(address);
+        } else
+            return new ResponseEntity<>(HttpStatus.LOCKED);
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateJWT(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+            return ResponseEntity.status(HttpStatus.OK).build();
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
     //Добавил пагинацию для оптимизации памяти при большом количестве записей в бд [14.04]
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllUsers(@RequestParam(defaultValue = "0") int page,
@@ -182,13 +199,14 @@ public class AccountController {
     @GetMapping("/history")
     public ResponseEntity<List<HistoryItemDTO>> getHistory(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "20") int size,
-                                                          @RequestParam String jwt) {
+                                                          @RequestParam String jwt,
+                                                           @RequestParam String search) {
         Pageable pageable = PageRequest.of(page, size);
         Page<HistoryItemDTO> historyPage;
 
         if(JwtService.validateToken(jwt)) {
             var id = JwtService.getUserIdFromToken(jwt);
-            historyPage = historyService.getHistory(pageable, id);
+            historyPage = historyService.getHistory(pageable, id, search);
             if (historyPage.isEmpty()) {
                 return ResponseEntity.noContent().build();
             } else {
@@ -197,7 +215,7 @@ public class AccountController {
         } else return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
 
-    @PostMapping("/history/add")
+    @PostMapping("/buy")
     public ResponseEntity<HistoryItemDTO> addToHistory(@Valid @RequestBody HistoryItemDTO request,
                                                 BindingResult bindingResult,
                                                 @RequestParam String jwt) {
@@ -212,13 +230,34 @@ public class AccountController {
         }
         else return ResponseEntity.status(HttpStatus.LOCKED).build();
     }
+    @GetMapping("/history/active")
+    public ResponseEntity<List<HistoryItemDTO>> getActive(@RequestParam String jwt)
+    {
+        if(JwtService.validateToken(jwt))
+        {
+            return ResponseEntity.ok(historyService.getActive(JwtService.getUserIdFromToken(jwt)));
+        }
+        else return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
     @GetMapping("/history/count")
-    public ResponseEntity<Integer> getHistoryCount(@RequestParam String jwt)
+    public ResponseEntity<Integer> getHistoryCount(@RequestParam String jwt, @RequestParam String search)
     {
         if(JwtService.validateToken(jwt))
         {
             var id = JwtService.getUserIdFromToken(jwt);
-            return ResponseEntity.status(HttpStatus.OK).body(historyService.getHistorySize(id));
+            return ResponseEntity.status(HttpStatus.OK).body(historyService.getHistorySize(id, search));
+        }
+        return ResponseEntity.status(HttpStatus.LOCKED).build();
+    }
+
+    @PatchMapping("/history/confirm")
+    public ResponseEntity<HistoryItemDTO> confirmItem(@RequestParam String jwt, @RequestParam Integer item)
+    {
+        if(JwtService.validateToken(jwt))
+        {
+            var id = JwtService.getUserIdFromToken(jwt);
+            historyService.confirmItem(id, item);
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.LOCKED).build();
     }

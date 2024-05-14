@@ -1,3 +1,4 @@
+var delivery_address = '';
 function loadCart(jwt) {
     const url = `http://localhost:8080/api/cart?jwt=${jwt}`;
     fetch(url)
@@ -47,7 +48,7 @@ function loadCart(jwt) {
                                     </lord-icon>
                                 </button>
                             </div>
-                            <button class="medicine-buy" id="buy-${aid.id}" type="button">${price * cartItem.quantity} ₽</button>
+                            <button class="medicine-buy" id="buy-${aid.id}" type="button" onClick='buyItem(${aid.id},${aid.price * (1 - (aid.discountPercent / 100))},${cartItem.quantity});'>${price * cartItem.quantity} ₽</button>
                         `;
 
                         // Добавление карточки товара в контейнер
@@ -106,15 +107,18 @@ function updateCartItem(itemId, price) {
         alert('Ошибка при изменении количества: ' + error.message);
     });
 }
-function deleteCartItem(itemId) {
+function deleteCartItem(itemId)
+{
+    if(!confirm('Удалить товар из корзины?'))
+        return;
+    deleteCartRequest(itemId);
+}
+function deleteCartRequest(itemId) {
     var cartItem = {
         user_id:null,
         aid_id: itemId,
         quantity: 0
     };
-    if(!confirm('Удалить товар из корзины?'))
-        return;
-    // Отправляем POST запрос на сервер
     fetch(`http://localhost:8080/api/cart/delete?jwt=${getCookie("jwt")}`, {
         method: 'DELETE',
         headers: {
@@ -132,5 +136,49 @@ function deleteCartItem(itemId) {
         alert('Ошибка при удалении из корзины: ' + error.message);
     });
 }
+function buyItem(id, price, quantity) {
+    if(delivery_address !== ''){
+    if(confirm(`Вы уверены что хотите оформить заказ на сумму: ${price*quantity} руб. \nИ адрес: ${delivery_address}`))
+        buyItemRequest(id,price,quantity);
+} else alert("Невозможно оформить заказ: не задан адрес доставки!");
+}
+function buyItemRequest(id, price, quantity) {
+    var buyItemm = {
+        aid_id: id,
+        quantity: quantity,
+        price: price
+    };
+    
+    // Отправляем POST запрос на сервер
+    fetch(`http://localhost:8080/api/users/buy?jwt=${getCookie("jwt")}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(buyItemm)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка сервера: ' + response.status);
+        }
+        document.getElementById(`item-${id}`).style.display = 'none';
+        deleteCartRequest(id);
+    })
+    .catch(error => {
+        alert('Ошибка при удалении: ' + error.message);
+    });
+}
+async function getAddress(jwt){
+    try {
+        const response = await fetch(`http://localhost:8080/api/users/address?jwt=${jwt}`);
+        const data = await response.text();
 
+        // Отображаем данные о медикаменте на странице
+        delivery_address = data;
+    } catch (error) {
+        console.error('Ошибка при получении данных о медикаменте:', error);
+    }
+}
+
+getAddress(getCookie('jwt'));
 loadCart(getCookie('jwt'));

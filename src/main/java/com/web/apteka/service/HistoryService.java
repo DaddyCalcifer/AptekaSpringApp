@@ -21,16 +21,18 @@ public class HistoryService {
     {
         return historyRepository.getActiveDeliveries(id);
     }
-    public Page<HistoryItemDTO> getHistory(Pageable pageable, UUID id){
-        return  historyRepository.getHistory(pageable,id);
+    public Page<HistoryItemDTO> getHistory(Pageable pageable, UUID id, String search){
+        return  historyRepository.getHistory(pageable,id, search);
     }
 
     public HistoryItemDTO buyItem(HistoryItemDTO item){
         return historyRepository.save(item);
     }
 
-    public Integer getHistorySize(UUID id)
+    public Integer getHistorySize(UUID id, String search)
     {
-        return historyRepository.getHistorySize(id);
+        return historyRepository.getHistorySize(id, search);
     }
+
+    public void confirmItem(UUID user,Integer id) { historyRepository.confirmItem(user,id);}
 }

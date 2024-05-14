@@ -434,3 +434,62 @@ body {
     display: none;
     font-size: 20px;
 }
+.product-card {
+    display: flex;
+    margin-bottom: 20px;
+    border: 3px solid #05441f;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.product-image {
+    width: 199px;
+    height: 200px;
+    margin: 15px;
+    text-decoration: none;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 10px;
+}
+
+.product-name {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.purchase-date, .delivery-date {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #666;
+}
+.delivery-status {
+    margin: 5px 0;
+    font-size: 17px;
+    color: #05441f;
+}
+.product-info button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 13px;
+    font-size: 15px;
+    background-color: #1b8f21;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+.product-info button:hover {
+    background-color: #05441f;
+}
+

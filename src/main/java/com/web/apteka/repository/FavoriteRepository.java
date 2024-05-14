@@ -14,8 +14,8 @@ import java.util.UUID;
 
 public interface FavoriteRepository extends JpaRepository<FavoriteDTO, Integer> {
     @Query("SELECT f FROM FavoriteDTO f JOIN AidDTO a ON f.aid_id = a.id WHERE f.user_id = :id " +
-            "AND (LOWER(a.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :search, '%')) " +
-            "OR LOWER(a.manufacturer) LIKE LOWER(CONCAT('%', :search, '%')))")
+                "AND (LOWER(a.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :search, '%')) " +
+                "OR LOWER(a.manufacturer) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<FavoriteDTO> getFavs(org.springframework.data.domain.Pageable pageable, @Param("id") UUID id, @Param("search") String search);
 
     @Query("SELECT COUNT(f) FROM FavoriteDTO f JOIN AidDTO a ON f.aid_id = a.id WHERE f.user_id = :id " +

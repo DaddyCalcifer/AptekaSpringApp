@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    validate();
+    loadHead();
+});
+
+function loadHead() {
     // Проверяем наличие JWT токена в cookie
     const jwtToken = getCookieJwt('jwt');
     var cartSize = 228;
@@ -42,8 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <a href="auth" style="margin: 0px 10px;">Авторизация</a>
         `;
     }
-});
-
+}
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + expires.toUTCString();
+}
 // Функция для получения cookie по имени
 function getCookieJwt(name) {
     const cookieArr = document.cookie.split(';');
@@ -54,4 +63,15 @@ function getCookieJwt(name) {
         }
     }
     return null;
+}
+function validate() {
+    url = `http://localhost:8080/api/users/validate?jwt=${getCookieJwt('jwt')}`;
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                setCookie('jwt',0,0);
+                location.reload(true); // Перезагружаем страницу с обновлением кэша
+            }
+        })
+        .catch(error => console.error('Ошибка при отправке запроса:', error));
 }

@@ -96,4 +96,5 @@ public class AccountService {
         return accountRepository.getUserCount();
     }
     public String getUserHashPass(UUID id) { return accountRepository.getPassHash(id);}
+    public String getUserAddress(UUID id) { return accountRepository.getAddress(id);}
 }

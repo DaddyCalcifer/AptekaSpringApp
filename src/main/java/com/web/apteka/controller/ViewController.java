@@ -51,4 +51,9 @@ public class ViewController {
     {
         return "favorite";
     }
+    @GetMapping("/history")
+    public String historyPage()
+    {
+        return "history";
+    }
 }

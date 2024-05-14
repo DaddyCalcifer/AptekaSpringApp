@@ -59,6 +59,9 @@ public interface AccountRepository extends JpaRepository<AccountDTO, UUID> {
     @Query("SELECT passwordHash FROM AccountDTO WHERE id = :id")
     String getPassHash(@Param("id") UUID id);
 
+    @Query("SELECT address FROM AccountDTO WHERE id = :id")
+    String getAddress(@Param("id") UUID id);
+
     @Query("SELECT COUNT(*) FROM AccountDTO")
     Integer getUserCount();
 
