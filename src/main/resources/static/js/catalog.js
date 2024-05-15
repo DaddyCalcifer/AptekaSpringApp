@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
     const _page = urlParams.get('page') || 0; // Если параметр не указан, используется значение по умолчанию 1
     const _search = urlParams.get('search') || '';
-    const pageSize = 16; // Размер страницы
+    var pageSize = 16; // Размер страницы
     const minP = urlParams.get('minP') || 0;
     const maxP = urlParams.get('maxP') || 999999;
     var sort = 'ASC';
@@ -113,6 +113,7 @@ const urlParams = new URLSearchParams(window.location.search);
         .then(data => {
             const numberData = Number(data); // Преобразование данных в число
             const container = document.getElementById('pages-container');
+            container.innerHTML = '';
 
             if(numberData > pageSize){
             // Цикл для создания ссылок на страницы
@@ -182,7 +183,34 @@ const urlParams = new URLSearchParams(window.location.search);
             }
             return null;
         }
+
+        // Функция для вычисления pageSize
+        function calculatePageSize() {
+            // Получаем ширину окна браузера
+            const windowWidth = window.innerWidth;
+
+            // Вычисляем ширину контейнера для карточек (85% от ширины окна) и отступы
+            const containerWidth = windowWidth * 0.85;
+            const gap = 20;
+
+            // Вычисляем ширину одной карточки (190px) плюс отступ
+            const cardWidth = 190 + gap;
+
+            // Вычисляем количество карточек в одном ряду
+            const cardsPerRow = Math.floor(containerWidth / cardWidth);
+
+            // Вычисляем количество рядов (3 ряда)
+            const rows = 3;
+
+            // Вычисляем общее количество карточек на странице
+            const totalCards = cardsPerRow * rows;
+
+            // Устанавливаем pageSize равным общему количеству карточек
+            return totalCards;
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
+            pageSize = calculatePageSize();
             const searchInput = document.getElementById("search_input");
             const minPriceI = document.getElementById("minPrice");
             const maxPriceI = document.getElementById("maxPrice");
@@ -198,4 +226,9 @@ const urlParams = new URLSearchParams(window.location.search);
             if (maxPriceI && maxP && maxP < 999999) {
                 maxPriceI.value = maxP;
             }
+        });
+        window.addEventListener('resize', () => {
+             pageSize = calculatePageSize();
+             loadAids(_page);
+             loadPages();
         });

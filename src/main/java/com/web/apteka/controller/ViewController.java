@@ -56,4 +56,9 @@ public class ViewController {
     {
         return "history";
     }
+    @GetMapping("/about")
+    public String aboutPage()
+    {
+        return "about";
+    }
 }

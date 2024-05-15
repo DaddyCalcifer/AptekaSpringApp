@@ -359,7 +359,8 @@ body {
     justify-content: center;
     display: block;
     border-radius: 30px;
-    width: 30%;
+    max-width: 600px;
+    width: 90%;
     box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.1);
     border: 3px solid #05441f;
     margin: 0 auto;
@@ -492,4 +493,3 @@ body {
 .product-info button:hover {
     background-color: #05441f;
 }
-
