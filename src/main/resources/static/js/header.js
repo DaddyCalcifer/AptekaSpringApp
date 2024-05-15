@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    validate();
     loadHead();
 });
 
@@ -30,11 +29,11 @@ function loadHead() {
     header.innerHTML = ``;
     // Если JWT токен существует, отображаем кнопки профиля и корзины
     if (jwtToken) {
+         validate();
         header.innerHTML = `
             <a href="index" style="margin: 0px 10px;">Главная</a>
             <a href="catalog" style="margin: 0px 10px;">Каталог</a>
             <a href="about" style="margin: 0px 10px;">О нас</a>
-            <a href="contacts" style="margin: 0px 10px;">Контакты</a>
             <a href="profile" style="margin: 0px 10px;margin-left: 50px;">Профиль</a>
             <a href="cart" style="margin: 0px 10px;">Корзина <span id="cartSize">0</span></a>
         `;
@@ -43,7 +42,6 @@ function loadHead() {
             <a href="index" style="margin: 0px 10px;">Главная</a>
             <a href="catalog" style="margin: 0px 10px;">Каталог</a>
             <a href="about" style="margin: 0px 10px;">О нас</a>
-            <a href="contacts" style="margin: 0px 10px;">Контакты</a>
             <a href="auth" style="margin: 0px 10px;">Авторизация</a>
         `;
     }

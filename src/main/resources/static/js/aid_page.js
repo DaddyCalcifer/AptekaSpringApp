@@ -32,8 +32,8 @@ async function getAidDetails() {
     }
 }
 function addToCart(aidId) {
-    // Получаем значения полей формы
-    
+    if(!getCookie("jwt"))
+        return alert('Авторизация не выполнена');
     // Формируем JSON объект для отправки на сервер
     var cartItem = {
         user_id:null,
@@ -61,6 +61,9 @@ function addToCart(aidId) {
 }
 
 function addToFav(aidId) {
+    if(!getCookie("jwt"))
+        return alert('Авторизация не выполнена');
+
     var favItem = {
         user_id:null,
         aid_id: aidId

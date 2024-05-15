@@ -115,6 +115,7 @@ const urlParams = new URLSearchParams(window.location.search);
         .then(data => {
             const numberData = Number(data); // Преобразование данных в число
             const container = document.getElementById('pages-container');
+            container.innerHTML = '';
 
             if(numberData > pageSize){
             // Цикл для создания ссылок на страницы
@@ -173,6 +174,7 @@ const urlParams = new URLSearchParams(window.location.search);
                 }
                 document.getElementById(`item-${id}`).style.display = 'none';
                 loadHistory(_page);
+                loadPages();
             })
             .catch(error => {
                 alert('Ошибка при удалении: ' + error.message);

@@ -144,7 +144,8 @@ const urlParams = new URLSearchParams(window.location.search);
 
     function addToCart(aidId) {
         // Получаем значения полей формы
-        
+        if(!getCookie("jwt"))
+            return alert('Авторизация не выполнена');
         // Формируем JSON объект для отправки на сервер
         var cartItem = {
             user_id:null,
