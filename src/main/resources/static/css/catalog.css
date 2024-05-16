@@ -199,6 +199,22 @@ body {
 .filter button:hover {
     background-color: #45a049;
 }
+.filter a {
+    font-size: 13px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.filter a:hover {
+    background-color: #45a049;
+}
 .price {
     font-size: 18px; /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
     color: #006e06; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */

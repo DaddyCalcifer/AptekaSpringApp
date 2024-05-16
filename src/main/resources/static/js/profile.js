@@ -133,3 +133,6 @@ function resetPassword(jwt, current, new_) {
             alert('Ошибка при обновлении данных: ' + error.message);
         });
     }
+
+if(!getCookieJwt('jwt'))
+    window.location.href = window.location.href.replace('/profile','');

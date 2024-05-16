@@ -159,3 +159,6 @@ const urlParams = new URLSearchParams(window.location.search);
                 alert('Ошибка при удалении: ' + error.message);
             });
         }
+
+        if(!getCookie('jwt'))
+            window.location.href = window.location.href.replace('/favorite','');

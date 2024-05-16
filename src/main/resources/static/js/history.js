@@ -154,6 +154,8 @@ const urlParams = new URLSearchParams(window.location.search);
             return null;
         }
         document.addEventListener("DOMContentLoaded", function() {
+            if(!getCookie('jwt'))
+                window.location.href = window.location.href.replace('/history','');
             const searchInput = document.getElementById("search_input");
             loadHistory(_page);
             loadActive();

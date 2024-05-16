@@ -38,7 +38,7 @@ function addToCart(aidId) {
     var cartItem = {
         user_id:null,
         aid_id: aidId,
-        quantity: 1
+        quantity: document.getElementById('quantity').value
     };
     
     // Отправляем POST запрос на сервер

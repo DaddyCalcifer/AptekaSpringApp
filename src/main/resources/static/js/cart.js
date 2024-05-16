@@ -137,6 +137,7 @@ function deleteCartRequest(itemId) {
     });
 }
 function buyItem(id, price, quantity) {
+    quantity = document.getElementById(`quantity-${id}`).value;
     if(delivery_address !== ''){
     if(confirm(`Вы уверены что хотите оформить заказ на сумму: ${price*quantity} руб. \nИ адрес: ${delivery_address}`))
         buyItemRequest(id,price,quantity);
@@ -182,3 +183,5 @@ async function getAddress(jwt){
 
 getAddress(getCookie('jwt'));
 loadCart(getCookie('jwt'));
+if(!getCookie('jwt'))
+    window.location.href = window.location.href.replace('/cart','');
